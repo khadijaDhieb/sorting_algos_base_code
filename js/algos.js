@@ -32,7 +32,9 @@ function distanceFromGrenoble(city) {
 function swap(i, j) {
   displayBuffer.push(['swap', i, j]); // Do not delete this line (for display)
   console.log("swap - implement me !");
-
+  let tmp = csvData[i];
+  csvData[i] = csvData[j];
+  csvData[j] = tmp ;
 }
 
 // Returns true if city with index i in csvData is closer to Grenoble than city with index j
@@ -41,6 +43,11 @@ function swap(i, j) {
 function isLess(i, j) {
   displayBuffer.push(['compare', i, j]); // Do not delete this line (for display)
   console.log("isLess - implement me !");
+  // if (csvData[i].dist < csvData[j].dist){
+  //   return true ;
+  // }
+  // return false;
+  return (csvData[i].dist < csvData[j].dist) ;
 }
 
 
