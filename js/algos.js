@@ -21,7 +21,7 @@ function distanceFromGrenoble(city) {
     Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-  const d = (R * c)/1000 ; // in klm
+  const d = (R * c) / 1000; // in klm
 
   return d;
 }
@@ -34,7 +34,8 @@ function swap(i, j) {
   console.log("swap - implement me !");
   let tmp = csvData[i];
   csvData[i] = csvData[j];
-  csvData[j] = tmp ;
+  csvData[j] = tmp;
+ // [csvData[i], csvData[j]] = [csvData[j], csvData[i]]
 }
 
 // Returns true if city with index i in csvData is closer to Grenoble than city with index j
@@ -42,25 +43,53 @@ function swap(i, j) {
 // j is the index of the second city
 function isLess(i, j) {
   displayBuffer.push(['compare', i, j]); // Do not delete this line (for display)
-  console.log("isLess - implement me !");
+  console.log("isLess - implement me !", i, j, csvData[i], csvData[j]);
   // if (csvData[i].dist < csvData[j].dist){
   //   return true ;
   // }
   // return false;
-  return (csvData[i].dist < csvData[j].dist) ;
+  return (csvData[i].dist < csvData[j].dist);
 }
 
 
 function insertsort() {
   console.log("insertsort - implement me !");
+
+  for (let i = 1; i < csvData.length  ; i++) {
+    for (let k = i; k > 0 && isLess(k,k-1); k--) {
+        swap(k,k-1);
+    }
+  }
+  
 }
 
 function selectionsort() {
   console.log("selectionsort - implement me !");
+  for (let i =0 ; i<csvData.length ; i++){
+    let min = i;
+    for(let j=i+1 ; j<csvData.length ; j++){
+      if (csvData[j].dist < csvData[min].dist){
+        min = j ;
+      }
+    }
+    swap(i , min);
+  }
 }
 
 function bubblesort() {
   console.log("bubblesort - implement me !");
+  let passage = 0 ;
+  let permut = true ;
+  do{
+    permut = false ;
+    for(i=0 ; i<(csvData.length- 1-passage) ; i ++ ){
+      if (csvData[i].dist > csvData[i +1].dist){
+        swap(i , i+1);
+        permut = true ;
+      }
+    }
+    passage = passage+1 ;
+  }while (permut == true)
 }
 
 function shellsort() {
