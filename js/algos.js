@@ -35,7 +35,7 @@ function swap(i, j) {
   let tmp = csvData[i];
   csvData[i] = csvData[j];
   csvData[j] = tmp;
- // [csvData[i], csvData[j]] = [csvData[j], csvData[i]]
+  // [csvData[i], csvData[j]] = [csvData[j], csvData[i]]
 }
 
 // Returns true if city with index i in csvData is closer to Grenoble than city with index j
@@ -43,7 +43,7 @@ function swap(i, j) {
 // j is the index of the second city
 function isLess(i, j) {
   displayBuffer.push(['compare', i, j]); // Do not delete this line (for display)
-  console.log("isLess - implement me !", i, j, csvData[i], csvData[j]);
+  console.log("isLess - implement me !");
   // if (csvData[i].dist < csvData[j].dist){
   //   return true ;
   // }
@@ -55,41 +55,41 @@ function isLess(i, j) {
 function insertsort() {
   console.log("insertsort - implement me !");
 
-  for (let i = 1; i < csvData.length  ; i++) {
-    for (let k = i; k > 0 && isLess(k,k-1); k--) {
-        swap(k,k-1);
+  for (let i = 1; i < csvData.length; i++) {
+    for (let k = i; k > 0 && isLess(k, k - 1); k--) {
+      swap(k, k - 1);
     }
   }
-  
+
 }
 
 function selectionsort() {
   console.log("selectionsort - implement me !");
-  for (let i =0 ; i<csvData.length ; i++){
+  for (let i = 0; i < csvData.length; i++) {
     let min = i;
-    for(let j=i+1 ; j<csvData.length ; j++){
-      if (csvData[j].dist < csvData[min].dist){
-        min = j ;
+    for (let j = i + 1; j < csvData.length; j++) {
+      if (isLess(j, min)) {
+        min = j;
       }
     }
-    swap(i , min);
+    swap(i, min);
   }
 }
 
 function bubblesort() {
   console.log("bubblesort - implement me !");
-  let passage = 0 ;
-  let permut = true ;
-  do{
-    permut = false ;
-    for(i=0 ; i<(csvData.length- 1-passage) ; i ++ ){
-      if (csvData[i].dist > csvData[i +1].dist){
-        swap(i , i+1);
-        permut = true ;
+  let passage = 0;
+  let permut = true;
+  do {
+    permut = false;
+    for (i = 0; i < (csvData.length - 1 - passage); i++) {
+      if (!isLess(i, i + 1)) {
+        swap(i, i + 1);
+        permut = true;
       }
     }
-    passage = passage+1 ;
-  }while (permut == true)
+    passage++;
+  } while (permut)
 }
 
 function shellsort() {
@@ -106,7 +106,37 @@ function heapsort() {
 
 function quicksort() {
   console.log("quicksort - implement me !");
+  csvData = R_quicksort(csvData);
+  console.log(csvData);
 }
+
+function R_quicksort(tab) {
+
+  if (tab.length < 2) {
+    return tab
+  };
+
+  let lefttab = [];
+  let righttab = [];
+  let pivot = tab[tab.length-1];
+
+  for (let i = 0; i < tab.length -1; i++) {
+    if (tab[i].dist <= pivot.dist) {
+      lefttab.push(tab[i]);
+    } else {
+      righttab.push(tab[i]);
+    }
+  }
+  if(lefttab.length> 0 && righttab.length >0){
+     return [...R_quicksort(lefttab), pivot, ...R_quicksort(righttab)];
+  }else if (lefttab.length > 0){
+    return [...R_quicksort(lefttab), pivot];
+  }else {
+    return [ pivot, ...R_quicksort(righttab)];
+  }
+ 
+}
+
 function quick3sort() {
   console.log("quick3sort - implement me !");
 }
@@ -125,3 +155,24 @@ function sort(algo) {
     default: throw 'Invalid algorithm ' + algo;
   }
 }
+
+
+
+
+
+ // let mur, pivot, courant;
+  // if (taille < 2) return;
+  // console.log(taille)
+  // pivot = tab[taille-1].dist;
+  // mur = courant = 0;
+  // while (courant < taille) {
+  //   if(tab[courant].dist <= pivot){
+  //     if (mur != courant){
+  //       swap(mur, courant);
+  //     }
+  //     mur++ ; 
+  //   }
+  //   courant++ ;
+  // }
+  // quicksort_recursive(tab, mur - 1);
+  // quicksort_recursive(tab + mur - 1, taille - mur + 1);
